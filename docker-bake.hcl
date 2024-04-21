@@ -3,11 +3,11 @@ variable "REGISTRY" {
 }
 
 variable "REGISTRY_USER" {
-    default = "ashleykza"
+    default = "nickharvey"
 }
 
 variable "APP" {
-    default = "kohya"
+    default = "journa-kohya"
 }
 
 variable "RELEASE" {

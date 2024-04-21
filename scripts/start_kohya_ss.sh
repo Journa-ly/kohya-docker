@@ -15,7 +15,7 @@ check_azcopy() {
 install_azcopy() {
     # Using snap to install azcopy
     echo "Installing azcopy using snap..."
-    sudo snap install azcopy --classic
+    sudo snap install azcli
     if [ $? -ne 0 ]; then
         echo "Installation failed. Please install azcopy manually."
         exit 1
@@ -26,20 +26,17 @@ install_azcopy() {
 # Check if azcopy is installed, install if not
 check_azcopy
 
-
-# Check if azcopy is installed, install if not
-check_azcopy
-
 # Sync data using azcopy with SAS token
-storage_account_name="your_storage_account_name"
+storage_account_name="journatest"
 container_name="training-image-data-ssh-keys-deploy-keys"
 directory_in_container="/"
-local_directory_path="~/.ssh/"
-sas_token="${AZURE_STORAGE_SAS_TOKEN}"
+local_directory_path="./"
+sas_token="sp=r&st=2024-04-16T16:07:36Z&se=2024-04-17T00:07:36Z&spr=https&sv=2022-11-02&sr=c&sig=iMC%2FlIMhCO8QaV0U829xH5u4YN6RQ%2BKmJNMSGms2Q0g%3D"
 
 
+echo "copying training data ssh key"
 # Using the correct variables and format for the azcopy command
-azcopy sync "https://${storage_account_name}.blob.core.windows.net/${container_name}${directory_in_container}?${sas_token}" "$local_directory_path" --recursive
+azcopy copy "https://${storage_account_name}.blob.core.windows.net/${container_name}?${sas_token}" "$local_directory_path" --recursive
 
 
 # Git clone training data
